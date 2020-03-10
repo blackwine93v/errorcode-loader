@@ -1,15 +1,26 @@
 const { getOptions } = require('loader-utils');
 const { createHash } = require('crypto');
+const path = require('path');
 const fs = require('fs');
 
 function hash(msg) {
   return createHash('md5').update(msg).digest('hex');
 }
 
-function writeFile(path, data) {
-  fs.writeFile(path, JSON.stringify(data), (err) => {
-    if (err) throw err;
-  });
+function writeFileSyncRecursive(filename, content) {
+  const folders = filename.split(path.sep).slice(0, -1)
+
+  if (folders.length) {
+    // create folder path if it doesn't exist
+    folders.reduce((last, folder) => {
+      const folderPath = last ? last + path.sep + folder : folder
+      if (!fs.existsSync(folderPath)) {
+        fs.mkdirSync(folderPath)
+      }
+      return folderPath
+    })
+  }
+  fs.writeFileSync(filename, JSON.stringify(content))
 }
 
 function writeCode() {
@@ -43,7 +54,7 @@ module.exports = function loader(source) {
     return `throw ({ name: 'ErrorCode', code: "${code}", message: ${match} })`;
   })
 
-  writeFile(errorFilePath, error);
+  writeFileSyncRecursive(errorFilePath, error);
 
   return source;
 }

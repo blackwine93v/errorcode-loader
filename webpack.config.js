@@ -16,7 +16,7 @@ module.exports = {
           {
             loader: path.resolve('./index.js'),
             options: {
-              errorFilePath: 'ErrorCode.json'
+              errorFilePath: './abc/def/ErrorCode.json'
             }
           },
         ]
