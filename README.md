@@ -21,13 +21,13 @@ module.exports = {
       {
         test: /\.js$/,
         use: [
+          'babel-loader',
           {
             loader: 'errorcode-loader,
             options: {
               errorFilePath: 'ErrorCode.json'
             }
-          }, // should be after babel-loader
-          'babel-loader'
+          }
         ]
       }
     ]
@@ -37,4 +37,4 @@ module.exports = {
 
 ErrorCode.json will be:
 
-`{"62a04ccd53":"\"'Error message'\""}`
+`{"08e3733666":"\"'Error message'\""}`

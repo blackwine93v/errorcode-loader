@@ -45,5 +45,5 @@ module.exports = function loader(source) {
 
   writeFile(errorFilePath, error);
 
-  return `module.exports = ${source}`;
+  return source;
 }
