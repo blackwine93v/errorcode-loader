@@ -47,7 +47,7 @@ const { genErrorCode, error } = writeCode();
 
 module.exports = function loader(source) {
   const options = getOptions(this);
-  const errorFilePath = options.errorFilePath || 'errorCode.json';
+  const errorFilePath = './' + (options.errorFilePath || 'errorCode.json');
 
   source = source.replace(/throw new ErrorCode\((.+)\)/g, function(str, match) {
     const code = genErrorCode(match)
